@@ -1,0 +1,14 @@
+{
+    "log_directory": "/data/data/com.termux/files/home/storage/shared/weather_station",
+    "jwt_secret": "r6Aur&A$nLyf*npUhYvv@i5j*D8$5PKY",
+    "device_id": "home",
+    "host": "10.8.0.1",
+    "port": 12345,
+    "certificates": {
+        "folder": "certs",
+        "certificate": "server_certificate.pem"
+    },
+    "read_lines": 5,
+    "BUFFER_STORE_MAX_LINES": 96,
+    "store_max_lines": 600
+}

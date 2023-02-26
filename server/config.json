@@ -1,0 +1,16 @@
+{
+    "jwt_secret": "r6Aur&A$nLyf*npUhYvv@i5j*D8$5PKY",
+    "host": "0.0.0.0",
+    "port": 12345,
+    "certificates": {
+        "folder": "certs",
+        "certificate": "server_certificate.pem",
+        "key": "server_private_key.pem"
+    },
+    "clients": {
+        "home": {
+            "id": "home",
+            "description" : "Home Weather Station"
+        }
+    }
+}
