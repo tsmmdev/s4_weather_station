@@ -1,6 +1,12 @@
 import os
 import sys
 import json
+# from modules.config import Config
+
+
+# ROOT_FOLDER = os.path.abspath(os.path.dirname(__file__))
+# config = Config(ROOT_FOLDER)
+
 
 ROOT_FOLDER = os.path.abspath(os.path.dirname(__file__))
 MODULES_DIRECTORY = os.path.join(ROOT_FOLDER, "modules")
@@ -40,52 +46,3 @@ files.parse_logs(
     JWT_SECRET,
     SERVER_CERTIFICATE
 )
-
-
-# # Check if the LOGS_DIR exists
-# if not os.path.isdir(LOGS_DIR):
-#     print(f"Error: {LOGS_DIR} does not exist.")
-#     exit(1)
-#
-# data = {}
-# # Read the last 100 lines of text files in the LOGS_DIR
-# for filename in os.listdir(LOGS_DIR):
-#     filepath = os.path.join(LOGS_DIR, filename)
-#     if os.path.isfile(filepath) and filename.endswith(".txt"):
-#         if f"{filename}" not in data:
-#             data[f"{filename}"] = {
-#                 "header": [],
-#                 "data": []
-#             }
-#         with open(filepath, "r") as f:
-#             all_lines = f.readlines()
-#
-#             header = all_lines[:1]
-#             data[f"{filename}"]["header"] = header[0].strip().split("\t")
-#             # throw some random value that we are going to ignore in server
-#             data[f"{filename}"]["header"].append("junk")
-#             lines = all_lines[-READ_LINES:]
-#             for i, line in enumerate(lines[1:]):
-#                 # throw some random value that we are going to ignore in server
-#                 junk = random.randint(99999, 99999999999)
-#                 values = line.strip().split("\t")
-#                 values.append(junk)
-#                 data[f"{filename}"]["data"].append(values)
-#
-#         #trim file
-#         result = files.rewrite_file(filepath, STORE_MAX_LINES, BUFFER_STORE_MAX_LINES)
-#
-# response = server.send_data_to_server(HOST, PORT, DEVICE_ID, JWT_SECRET, data, SERVER_CERTIFICATE)
-# print(response)
-
-
-
-
-# # Convert the dictionary to JSON
-# json_str = json.dumps(data)
-#
-# # Print the JSON
-# # print(json_str)
-#
-# json_str_prety = json.dumps(data, indent=4)
-# print(json_str_prety)

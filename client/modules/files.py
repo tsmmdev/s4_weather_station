@@ -1,7 +1,15 @@
+# import sys
 import os
-import sys
 import random
 import server
+
+
+class Files:
+    def __init__(
+            self,
+            config
+    ):
+        self.config = config
 
 def rewrite_file(filepath, max_lines, buffer, just_return=False):
     # Check if file exists
@@ -30,7 +38,7 @@ def rewrite_file(filepath, max_lines, buffer, just_return=False):
 
     # Get the header line and last max_lines lines
     header_line = lines[0]
-    # buffer gives us more time. we dont want everytime to rewrite file
+    # buffer gives us more time. we don`t want everytime to rewrite file
     last_lines = lines[-(max_lines - buffer):]
 
     if just_return:
@@ -42,6 +50,7 @@ def rewrite_file(filepath, max_lines, buffer, just_return=False):
             f.writelines(last_lines)
 
     return f"File '{filepath}' rewritten with {max_lines} lines"
+
 
 def parse_logs(
         LOGS_DIR,
@@ -81,7 +90,7 @@ def parse_logs(
                     # throw some random value that we are going to ignore in server
                     junk = random.randint(99999, 99999999999)
                     values = line.strip().split("\t")
-                    values.append(junk)
+                    values.append(str(junk))
                     data[f"{filename}"]["data"].append(values)
 
             #trim file

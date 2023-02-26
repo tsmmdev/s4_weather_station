@@ -1,80 +1,97 @@
-import os
-import sys
+# import os
+import json
+import signal
 import socket
 import ssl
-import json
+import sys
+
 import jwt
-import signal
 
-def server_socket(
-        CLIENTS,
-        JWT_SECRET,
-        HOST,
-        PORT,
-        KEY_FILE,
-        CERTIFICATE_FILE
-):
-    def handle_signal(signum, frame):
-        # Clean up the socket and exit
-        wrapped_socket.close()
-        print("Server stopped")
-        sys.exit(0)
+from .db import WeatherDatabase
 
-    # Create a socket and listen for connections
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.bind((HOST, PORT))
-    sock.listen()
 
-    # Wrap the socket with SSL
-    wrapped_socket = ssl.wrap_socket(sock, keyfile=KEY_FILE, certfile=CERTIFICATE_FILE, server_side=True)
+class WeatherServer:
+    def __init__(
+            self,
+            config
+    ):
+        self.config = config
 
-    # Print the status of the socket
-    print(f"Server is listening on {HOST}:{PORT}")
+    def start(self):
+        weather_db = WeatherDatabase(self.config.get_db_file())
 
-    # Register the signal handler function
-    signal.signal(signal.SIGINT, handle_signal)
+        def handle_signal(signum, frame):
+            # Clean up the socket and exit
+            wrapped_socket.close()
+            print("Server stopped")
+            sys.exit(0)
 
-    while True:
-        conn, addr = wrapped_socket.accept()
-        with conn:
-            # Receive the data from the device
-            data = b""
-            length = 1024
-            index_len_end = 0
-            try:
-                while True:
-                    chunk = conn.recv(1024)
-                    if chunk.startswith(b'[') and b']' in chunk[:-1]:
-                        # process the data
-                        index_len_end = chunk.index(b']')
-                        len_string = chunk[0:(index_len_end + 1)]
-                        length = int(chunk[1:index_len_end]) + len(len_string)
+        # Create a socket and listen for connections
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        port = self.config.get_port()
+        host = self.config.get_host()
+        sock.bind((host, port))
+        sock.listen()
 
-                    data += chunk
+        # Wrap the socket with SSL
+        wrapped_socket = ssl.wrap_socket(
+            sock,
+            keyfile=self.config.get_certificate_key(),
+            certfile=self.config.get_certificate(),
+            server_side=True
+        )
 
-                    if not chunk or length == len(data):
-                        break
+        # Print the status of the socket
+        print(f"Server is listening on {host}:{port}")
 
-                data = data[index_len_end + 1:]
+        # Register the signal handler function
+        signal.signal(signal.SIGINT, handle_signal)
 
-                # Verify the JWT token
+        while True:
+            conn, addr = wrapped_socket.accept()
+            with conn:
+                # Receive the data from the device
+                data = b""
+                length = 1024
+                index_len_end = 0
                 try:
-                    payload = jwt.decode(data, JWT_SECRET, algorithms=['HS256'])
-                    device_id = payload['device_id']
-                    if not CLIENTS[device_id]:
-                        conn.sendall(b'Invalid device')
-                    else:
-                        # print(payload['data'])
-                        json_str_prety = json.dumps(payload['data'], indent=4)
-                        print(json_str_prety)
-                        # TODO: add data to sql
-                        conn.sendall(b'OK')
-                except jwt.exceptions.InvalidTokenError:
-                    # The token is invalid, send an error response to the device
-                    conn.sendall(b'Invalid token')
+                    while True:
+                        chunk = conn.recv(1024)
+                        if chunk.startswith(b'[') and b']' in chunk[:-1]:
+                            # process the data
+                            index_len_end = chunk.index(b']')
+                            len_string = chunk[0:(index_len_end + 1)]
+                            length = int(chunk[1:index_len_end]) + len(len_string)
 
-            except KeyboardInterrupt:
-                # Clean up the socket and exit
-                wrapped_socket.close()
-                print("Server stopped")
+                        data += chunk
 
+                        if not chunk or length == len(data):
+                            break
+
+                    data = data[index_len_end + 1:]
+
+                    # Verify the JWT token
+                    try:
+                        payload = jwt.decode(
+                            data,
+                            self.config.get_jwt_secret(),
+                            algorithms=['HS256']
+                        )
+                        device_id = payload['device_id']
+                        clients = self.config.get_clients()
+                        if not clients[device_id]:
+                            conn.sendall(b'Invalid device')
+                        else:
+                            # print(payload['data'])
+                            json_str_pretty = json.dumps(payload['data'], indent=4)
+                            print(json_str_pretty)
+                            # TODO: add data to sql
+                            conn.sendall(b'OK')
+                    except jwt.exceptions.InvalidTokenError:
+                        # The token is invalid, send an error response to the device
+                        conn.sendall(b'Invalid token')
+
+                except KeyboardInterrupt:
+                    # Clean up the socket and exit
+                    wrapped_socket.close()
+                    print("Server stopped")
