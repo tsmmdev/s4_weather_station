@@ -19,9 +19,11 @@ dist/
 # Package files
 *.jar
 
+#DB
+*.db
+
 # Maven
 target/
-dist/
 
 # JetBrains IDE
 .idea/

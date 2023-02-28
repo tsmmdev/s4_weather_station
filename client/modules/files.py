@@ -1,17 +1,10 @@
 # import sys
 import os
 import random
-import server
+from .server import ServerConnect
 
 
-class Files:
-    def __init__(
-            self,
-            config
-    ):
-        self.config = config
-
-def rewrite_file(filepath, max_lines, buffer, just_return=False):
+def _rewrite_file(filepath, max_lines, buffer, just_return=False):
     # Check if file exists
     if not os.path.exists(filepath):
         return f"Error: file '{filepath}' does not exist"
@@ -52,50 +45,50 @@ def rewrite_file(filepath, max_lines, buffer, just_return=False):
     return f"File '{filepath}' rewritten with {max_lines} lines"
 
 
-def parse_logs(
-        LOGS_DIR,
-        READ_LINES,
-        STORE_MAX_LINES,
-        BUFFER_STORE_MAX_LINES,
-        HOST,
-        PORT,
-        DEVICE_ID,
-        JWT_SECRET,
-        SERVER_CERTIFICATE
-):
-    # Check if the LOGS_DIR exists
-    if not os.path.isdir(LOGS_DIR):
-        print(f"Error: {LOGS_DIR} does not exist.")
-        exit(1)
+class Files:
+    def __init__(
+            self,
+            config
+    ):
+        self.config = config
 
-    data = {}
-    # Read the last 100 lines of text files in the LOGS_DIR
-    for filename in os.listdir(LOGS_DIR):
-        filepath = os.path.join(LOGS_DIR, filename)
-        if os.path.isfile(filepath) and filename.endswith(".txt"):
-            if f"{filename}" not in data:
-                data[f"{filename}"] = {
-                    "header": [],
-                    "data": []
-                }
-            with open(filepath, "r") as f:
-                all_lines = f.readlines()
+    def parse_logs(self):
+        logs_dir = self.config.get_log_directory()
+        if not os.path.isdir(logs_dir):
+            print(f"Error: {logs_dir} does not exist.")
+            exit(1)
 
-                header = all_lines[:1]
-                data[f"{filename}"]["header"] = header[0].strip().split("\t")
-                # throw some random value that we are going to ignore in server
-                data[f"{filename}"]["header"].append("junk")
-                lines = all_lines[-READ_LINES:]
-                for i, line in enumerate(lines[1:]):
-                    # throw some random value that we are going to ignore in server
-                    junk = random.randint(99999, 99999999999)
-                    values = line.strip().split("\t")
-                    values.append(str(junk))
-                    data[f"{filename}"]["data"].append(values)
+        read_lines = self.config.get_read_lines()
+        store_max_lines = self.config.get_store_max_lines()
+        buffer_store_max_lines = self.config.get_buffer_store_max_lines()
 
-            #trim file
-            result = rewrite_file(filepath, STORE_MAX_LINES, BUFFER_STORE_MAX_LINES)
+        data = {}
+        # Read the last 100 lines of text files in the logs_dir
+        for filename in os.listdir(logs_dir):
+            filepath = os.path.join(logs_dir, filename)
+            if os.path.isfile(filepath) and filename.endswith(".txt"):
+                if f"{filename}" not in data:
+                    data[f"{filename}"] = {
+                        "header": [],
+                        "data": []
+                    }
+                with open(filepath, "r") as f:
+                    all_lines = f.readlines()
+                    header = all_lines[:1]
+                    data[f"{filename}"]["header"] = header[0].strip().split("\t")
+                    # throw some random value that we are going to ignore in server for security reasons
+                    data[f"{filename}"]["header"].append("junk")
+                    lines = all_lines[-read_lines:]
+                    for i, line in enumerate(lines[1:]):
+                        # throw some random value that we are going to ignore in server
+                        junk = random.randint(99999, 99999999999)
+                        values = line.strip().split("\t")
+                        values.append(str(junk))
+                        data[f"{filename}"]["data"].append(values)
 
-    response = server.send_data_to_server(HOST, PORT, DEVICE_ID, JWT_SECRET, data, SERVER_CERTIFICATE)
+                # trim file
+                _rewrite_file(filepath=filepath, max_lines=store_max_lines, buffer=buffer_store_max_lines)
 
-    print(response)
+        server = ServerConnect(config=self.config)
+        response = server.send_data_to_server(data=data)
+        print(response)

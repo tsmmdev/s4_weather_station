@@ -4,9 +4,8 @@ import signal
 import socket
 import ssl
 import sys
-
 import jwt
-
+import datetime
 from .db import WeatherDatabase
 
 
@@ -17,8 +16,11 @@ class WeatherServer:
     ):
         self.config = config
 
+    # TODO: helper function for time string with given timezone
+    # TODO: in client in config add logs that are not interesting for parsing like mixin ...
     def start(self):
-        weather_db = WeatherDatabase(self.config.get_db_file())
+        weather_db = WeatherDatabase(db_file=self.config.get_db_file())
+        weather_db.update_devices(self.config.get_clients())
 
         def handle_signal(signum, frame):
             # Clean up the socket and exit
@@ -42,8 +44,10 @@ class WeatherServer:
         )
 
         # Print the status of the socket
-        print(f"Server is listening on {host}:{port}")
-
+        now_utc = datetime.datetime.utcnow()
+        utc_str = now_utc.strftime('%Y-%m-%d %H:%M:%S.%f UTC')[:-3] + "UTC: "
+        print(f"{utc_str}Server is listening on {host}:{port}")
+        print()
         # Register the signal handler function
         signal.signal(signal.SIGINT, handle_signal)
 
@@ -55,6 +59,9 @@ class WeatherServer:
                 length = 1024
                 index_len_end = 0
                 try:
+                    now_utc = datetime.datetime.utcnow()
+                    utc_str = now_utc.strftime('%Y-%m-%d %H:%M:%S.%f UTC')[:-3] + "UTC: "
+                    print(f"{utc_str} someone is knocking")
                     while True:
                         chunk = conn.recv(1024)
                         if chunk.startswith(b'[') and b']' in chunk[:-1]:
@@ -77,16 +84,27 @@ class WeatherServer:
                             self.config.get_jwt_secret(),
                             algorithms=['HS256']
                         )
-                        device_id = payload['device_id']
+                        device = payload['device']
+                        now_utc = datetime.datetime.utcnow()
+                        utc_str = now_utc.strftime('%Y-%m-%d %H:%M:%S.%f UTC')[:-3] + "UTC: "
+                        print(f"{utc_str} {device} is connected")
                         clients = self.config.get_clients()
-                        if not clients[device_id]:
+                        if not clients[device]:
                             conn.sendall(b'Invalid device')
                         else:
                             # print(payload['data'])
                             json_str_pretty = json.dumps(payload['data'], indent=4)
-                            print(json_str_pretty)
-                            # TODO: add data to sql
-                            conn.sendall(b'OK')
+                            # print(json_str_pretty)
+                            status = weather_db.add_data(device, payload['data'])
+                            if status['status']:
+                                conn.sendall(b'OK')
+                            else:
+                                conn.sendall(bytes(status['message'], 'utf-8'))
+
+                            now_utc = datetime.datetime.utcnow()
+                            utc_str = now_utc.strftime('%Y-%m-%d %H:%M:%S.%f UTC')[:-3] + "UTC: "
+                            print(f"{utc_str} {device} is disconnected")
+                            print()
                     except jwt.exceptions.InvalidTokenError:
                         # The token is invalid, send an error response to the device
                         conn.sendall(b'Invalid token')
