@@ -10,7 +10,11 @@
     "clients": {
         "home": {
             "id": "home",
-            "description" : "Home Weather Station"
+            "description" : "Home"
+        },
+        "plana": {
+            "id": "plana",
+            "description" : "Plana"
         }
     }
 }

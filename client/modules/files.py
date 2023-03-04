@@ -2,6 +2,7 @@
 import os
 import random
 from .server import ServerConnect
+from .helpers import log_time_zone
 
 
 def _rewrite_file(filepath, max_lines, buffer, just_return=False):
@@ -63,32 +64,35 @@ class Files:
         buffer_store_max_lines = self.config.get_buffer_store_max_lines()
 
         data = {}
-        # Read the last 100 lines of text files in the logs_dir
+        ignore_logs = self.config.get_ignore_logs()
         for filename in os.listdir(logs_dir):
             filepath = os.path.join(logs_dir, filename)
             if os.path.isfile(filepath) and filename.endswith(".txt"):
-                if f"{filename}" not in data:
-                    data[f"{filename}"] = {
-                        "header": [],
-                        "data": []
-                    }
-                with open(filepath, "r") as f:
-                    all_lines = f.readlines()
-                    header = all_lines[:1]
-                    data[f"{filename}"]["header"] = header[0].strip().split("\t")
-                    # throw some random value that we are going to ignore in server for security reasons
-                    data[f"{filename}"]["header"].append("junk")
-                    lines = all_lines[-read_lines:]
-                    for i, line in enumerate(lines[1:]):
-                        # throw some random value that we are going to ignore in server
-                        junk = random.randint(99999, 99999999999)
-                        values = line.strip().split("\t")
-                        values.append(str(junk))
-                        data[f"{filename}"]["data"].append(values)
+                temp_filename = filename
+                temp_filename = temp_filename.split('_')[0]
+                if temp_filename not in ignore_logs:
+                    if f"{filename}" not in data:
+                        data[f"{filename}"] = {
+                            "header": [],
+                            "data": []
+                        }
+                    with open(filepath, "r") as f:
+                        all_lines = f.readlines()
+                        header = all_lines[:1]
+                        data[f"{filename}"]["header"] = header[0].strip().split("\t")
+                        # throw some random value that we are going to ignore in server for security reasons
+                        data[f"{filename}"]["header"].append("junk")
+                        lines = all_lines[-read_lines:]
+                        for i, line in enumerate(lines[1:]):
+                            # throw some random value that we are going to ignore in server
+                            junk = random.randint(99999, 99999999999)
+                            values = line.strip().split("\t")
+                            values.append(str(junk))
+                            data[f"{filename}"]["data"].append(values)
 
-                # trim file
-                _rewrite_file(filepath=filepath, max_lines=store_max_lines, buffer=buffer_store_max_lines)
+                    # trim file
+                    _rewrite_file(filepath=filepath, max_lines=store_max_lines, buffer=buffer_store_max_lines)
 
         server = ServerConnect(config=self.config)
         response = server.send_data_to_server(data=data)
-        print(response)
+        print(f"{log_time_zone()}: " + response)

@@ -5,7 +5,9 @@ import sys
 class WeatherDatabase:
     def __init__(self, db_file):
         self.db_file = db_file
+        self.init_db()
 
+    def init_db(self):
         conn = sqlite3.connect(self.db_file)
         c = conn.cursor()
         c.execute('''
@@ -29,6 +31,10 @@ class WeatherDatabase:
                 CONSTRAINT unique_type_ts UNIQUE (type, ts)
             );
 ''')
+        c.execute('''
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_sensor_data_type_ts
+    ON sensor_data (type, ts)
+''')
         conn.commit()
         conn.close()
 
@@ -36,10 +42,17 @@ class WeatherDatabase:
         conn = sqlite3.connect(self.db_file)
         c = conn.cursor()
         for device, device_data in devices.items():
-            # Insert or update the device with description and state
-            c.execute('INSERT INTO devices (device, description, state) VALUES (?, ?, ?) '
-                      'ON CONFLICT (device) DO UPDATE SET description = excluded.description, state = TRUE',
-                      (device_data['id'], device_data['description'], True))
+            # Check if device already exists in database
+            c.execute('SELECT id FROM devices WHERE device = ?', (device_data['id'],))
+            result = c.fetchone()
+            if result:
+                # Device already exists, update its description and state
+                c.execute('UPDATE devices SET description = ?, state = TRUE WHERE id = ?',
+                          (device_data['description'], result[0]))
+            else:
+                # Device does not exist, insert it with description and state
+                c.execute('INSERT INTO devices (device, description, state) VALUES (?, ?, ?)',
+                          (device_data['id'], device_data['description'], True))
         conn.commit()
         conn.close()
 

@@ -9,8 +9,13 @@ class Config:
             root_folder
     ):
         self.root_folder = root_folder
-        config_path = os.path.join(root_folder, "config.json")
-        with open(config_path, "r") as f:
+        self.config_path = os.path.join(root_folder, "config.json")
+        # with open(self.config_path, "r") as f:
+        #     self.config = json.load(f)
+        self.load_config()
+
+    def load_config(self):
+        with open(self.config_path, "r") as f:
             self.config = json.load(f)
 
     def get_clients(self) -> dict:

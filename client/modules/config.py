@@ -41,6 +41,9 @@ class Config:
     def get_jwt_secret(self) -> str:
         return self.config.get("jwt_secret", "r6Aur&A$nLyf*npUhYvv@i5j*D8$5PKY")
 
+    def get_ignore_logs(self) -> str:
+        return self.config.get("ignore_logs", [])
+
     def get_certificate(self) -> {}:
         certificate_config = self.config.get("certificates", {})
         certificate_folder = os.path.join(self.root_folder, certificate_config["folder"])

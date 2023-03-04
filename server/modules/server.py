@@ -1,23 +1,22 @@
 # import os
+from .config import Config
 import json
 import signal
 import socket
 import ssl
 import sys
 import jwt
-import datetime
+from .helpers import log_time_zone
 from .db import WeatherDatabase
 
 
 class WeatherServer:
     def __init__(
             self,
-            config
+            root_folder
     ):
-        self.config = config
+        self.config = Config(root_folder)
 
-    # TODO: helper function for time string with given timezone
-    # TODO: in client in config add logs that are not interesting for parsing like mixin ...
     def start(self):
         weather_db = WeatherDatabase(db_file=self.config.get_db_file())
         weather_db.update_devices(self.config.get_clients())
@@ -43,10 +42,7 @@ class WeatherServer:
             server_side=True
         )
 
-        # Print the status of the socket
-        now_utc = datetime.datetime.utcnow()
-        utc_str = now_utc.strftime('%Y-%m-%d %H:%M:%S.%f UTC')[:-3] + "UTC: "
-        print(f"{utc_str}Server is listening on {host}:{port}")
+        print(f"{log_time_zone()}: Server is listening on {host}:{port}")
         print()
         # Register the signal handler function
         signal.signal(signal.SIGINT, handle_signal)
@@ -59,9 +55,11 @@ class WeatherServer:
                 length = 1024
                 index_len_end = 0
                 try:
-                    now_utc = datetime.datetime.utcnow()
-                    utc_str = now_utc.strftime('%Y-%m-%d %H:%M:%S.%f UTC')[:-3] + "UTC: "
-                    print(f"{utc_str} someone is knocking")
+                    # reload config so we could dynamically react to changes
+                    self.config.load_config()
+                    weather_db.init_db()
+                    weather_db.update_devices(self.config.get_clients())
+                    print(f"{log_time_zone()}: someone is knocking")
                     while True:
                         chunk = conn.recv(1024)
                         if chunk.startswith(b'[') and b']' in chunk[:-1]:
@@ -85,9 +83,7 @@ class WeatherServer:
                             algorithms=['HS256']
                         )
                         device = payload['device']
-                        now_utc = datetime.datetime.utcnow()
-                        utc_str = now_utc.strftime('%Y-%m-%d %H:%M:%S.%f UTC')[:-3] + "UTC: "
-                        print(f"{utc_str} {device} is connected")
+                        print(f"{log_time_zone()}: {device} is connected")
                         clients = self.config.get_clients()
                         if not clients[device]:
                             conn.sendall(b'Invalid device')
@@ -101,9 +97,7 @@ class WeatherServer:
                             else:
                                 conn.sendall(bytes(status['message'], 'utf-8'))
 
-                            now_utc = datetime.datetime.utcnow()
-                            utc_str = now_utc.strftime('%Y-%m-%d %H:%M:%S.%f UTC')[:-3] + "UTC: "
-                            print(f"{utc_str} {device} is disconnected")
+                            print(f"{log_time_zone()}: {device} is disconnected")
                             print()
                     except jwt.exceptions.InvalidTokenError:
                         # The token is invalid, send an error response to the device
