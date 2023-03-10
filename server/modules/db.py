@@ -1,5 +1,5 @@
 import sqlite3
-import sys
+# import sys
 
 
 class WeatherDatabase:
@@ -28,7 +28,7 @@ class WeatherDatabase:
                 lat      REAL,
                 lot      REAL,
                 accuracy REAL,
-                CONSTRAINT unique_type_ts UNIQUE (type, ts)
+                CONSTRAINT unique_device_type_ts UNIQUE (device, type, ts)
             );
 ''')
         c.execute('''
@@ -69,9 +69,9 @@ class WeatherDatabase:
         if row:
             device_id, device, description, state = row
             if state:
-                sql_data = []
+                sql_data = {}
                 for log_type, log_data in data.items():
-                    type = log_type.split('_')[0]
+                    data_type = log_type.split('_')[0]
                     if isinstance(log_data, dict):
                         temp_header = log_data["header"]
                         header = []
@@ -87,7 +87,9 @@ class WeatherDatabase:
                             header.append(header_name)
 
                         for data_row in log_data["data"]:
-                            temp_data = [device_id, type]
+                            if data_type not in sql_data:
+                                sql_data[data_type] = []
+                            temp_data = [device_id, data_type]
                             header_index = -1
                             for header_name in header:
                                 header_index += 1
@@ -99,13 +101,31 @@ class WeatherDatabase:
                                     else:
                                         temp_data.append(round(float(data_row[header_index]), 2))
 
-                            sql_data.append(temp_data)
+                            sql_data[data_type].append(temp_data)
 
-                c.executemany(
-                    'INSERT OR IGNORE INTO sensor_data (device, type, ts, value, lat, lot, accuracy) '
-                    'VALUES (?, ?, ?, ?, ?, ?, ?) ',
-                    sql_data
-                )
+                # for data_type in sql_data:
+                for data_type, sql_dat in sql_data.items():
+                    c.execute(
+                        'SELECT ts FROM sensor_data WHERE device = ? AND type = ? ORDER BY ts DESC LIMIT 1',
+                        (device_id, data_type)
+                              )
+
+                    ts_check = c.fetchone()
+                    data_to_insert = sql_dat
+                    if ts_check:
+                        data_to_insert = []
+                        biggest_ts = ts_check[0]
+
+                        for sql_dat_row in sql_dat:
+                            if sql_dat_row[2] > biggest_ts:
+                                data_to_insert.append(sql_dat_row)
+
+                    c.executemany(
+                        'INSERT INTO sensor_data (device, type, ts, value, lat, lot, accuracy) '
+                        'VALUES (?, ?, ?, ?, ?, ?, ?) ',
+                        data_to_insert
+                    )
+                    # OR IGNORE
                 conn.commit()
                 conn.close()
             else:
