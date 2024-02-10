@@ -214,7 +214,7 @@
       "type": "stat"
     },
     {
-      "collapsed": true,
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -222,173 +222,174 @@
         "y": 2
       },
       "id": 28,
-      "panels": [
+      "panels": [],
+      "title": "Stations",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "${DS_SQLITE}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false,
+            "minWidth": 60
+          },
+          "links": [
+            {
+              "targetBlank": false,
+              "title": "",
+              "url": "/d/TUyySQmRz/data-for-device?var-device_id=${__data.fields.id}"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "temp"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "°C"
+              },
+              {
+                "id": "unit",
+                "value": "celsius"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "id"
+            },
+            "properties": [
+              {
+                "id": "custom.hidden",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "pressure"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "pressurehpa"
+              },
+              {
+                "id": "displayName",
+                "value": "Pressure"
+              },
+              {
+                "id": "custom.width",
+                "value": 85
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "humidity"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "humidity"
+              },
+              {
+                "id": "displayName",
+                "value": "Humidity"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "temp"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 74
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "description"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Station"
+              },
+              {
+                "id": "custom.width",
+                "value": 94
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 0,
+        "y": 3
+      },
+      "id": 30,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": [],
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "10.2.3",
+      "targets": [
         {
           "datasource": {
             "type": "frser-sqlite-datasource",
             "uid": "${DS_SQLITE}"
           },
-          "fieldConfig": {
-            "defaults": {
-              "custom": {
-                "align": "auto",
-                "cellOptions": {
-                  "type": "auto"
-                },
-                "inspect": false,
-                "minWidth": 60
-              },
-              "links": [
-                {
-                  "targetBlank": false,
-                  "title": "",
-                  "url": "/d/TUyySQmRz/data-for-device?var-device_id=${__data.fields.id}"
-                }
-              ],
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  }
-                ]
-              }
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "temp"
-                },
-                "properties": [
-                  {
-                    "id": "displayName",
-                    "value": "°C"
-                  },
-                  {
-                    "id": "unit",
-                    "value": "celsius"
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "id"
-                },
-                "properties": [
-                  {
-                    "id": "custom.hidden",
-                    "value": true
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "pressure"
-                },
-                "properties": [
-                  {
-                    "id": "unit",
-                    "value": "pressurehpa"
-                  },
-                  {
-                    "id": "displayName",
-                    "value": "Pressure"
-                  },
-                  {
-                    "id": "custom.width",
-                    "value": 85
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "humidity"
-                },
-                "properties": [
-                  {
-                    "id": "unit",
-                    "value": "humidity"
-                  },
-                  {
-                    "id": "displayName",
-                    "value": "Humidity"
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "temp"
-                },
-                "properties": [
-                  {
-                    "id": "custom.width",
-                    "value": 74
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "description"
-                },
-                "properties": [
-                  {
-                    "id": "displayName",
-                    "value": "Station"
-                  },
-                  {
-                    "id": "custom.width",
-                    "value": 94
-                  }
-                ]
-              }
-            ]
-          },
-          "gridPos": {
-            "h": 3,
-            "w": 6,
-            "x": 0,
-            "y": 4
-          },
-          "id": 30,
-          "options": {
-            "footer": {
-              "countRows": false,
-              "enablePagination": false,
-              "fields": [],
-              "reducer": [
-                "sum"
-              ],
-              "show": false
-            },
-            "showHeader": true,
-            "sortBy": []
-          },
-          "pluginVersion": "9.4.2",
-          "targets": [
-            {
-              "datasource": {
-                "type": "frser-sqlite-datasource",
-                "uid": "${DS_SQLITE}"
-              },
-              "queryText": "SELECT\n  devices.id,\n  devices.description, \n  GROUP_CONCAT(CASE WHEN sensor_data.type = 'temperature' THEN sensor_data.value ELSE NULL END) AS temp,\n  GROUP_CONCAT(CASE WHEN sensor_data.type = 'pressure' THEN sensor_data.value ELSE NULL END) AS pressure,\n  -- GROUP_CONCAT(CASE WHEN sensor_data.type = 'dew' THEN sensor_data.value ELSE NULL END) AS dew,\n  -- GROUP_CONCAT(CASE WHEN sensor_data.type = 'gps' THEN sensor_data.value ELSE NULL END) AS gps,\n  -- GROUP_CONCAT(CASE WHEN sensor_data.type = 'baro' THEN sensor_data.value ELSE NULL END) AS baro,\n  GROUP_CONCAT(CASE WHEN sensor_data.type = 'humidity' THEN sensor_data.value ELSE NULL END) AS humidity\n  -- GROUP_CONCAT(CASE WHEN sensor_data.type = 'heat' THEN sensor_data.value ELSE NULL END) AS heat\nFROM devices \nJOIN sensor_data ON devices.id = sensor_data.device \nWHERE sensor_data.ts = (SELECT MAX(ts) FROM sensor_data s WHERE s.device = sensor_data.device AND s.type = sensor_data.type)\nGROUP BY devices.device;",
-              "queryType": "table",
-              "rawQueryText": "SELECT\n  devices.id,\n  devices.description, \n  GROUP_CONCAT(CASE WHEN sensor_data.type = 'temperature' THEN sensor_data.value ELSE NULL END) AS temp,\n  GROUP_CONCAT(CASE WHEN sensor_data.type = 'pressure' THEN sensor_data.value ELSE NULL END) AS pressure,\n  -- GROUP_CONCAT(CASE WHEN sensor_data.type = 'dew' THEN sensor_data.value ELSE NULL END) AS dew,\n  -- GROUP_CONCAT(CASE WHEN sensor_data.type = 'gps' THEN sensor_data.value ELSE NULL END) AS gps,\n  -- GROUP_CONCAT(CASE WHEN sensor_data.type = 'baro' THEN sensor_data.value ELSE NULL END) AS baro,\n  GROUP_CONCAT(CASE WHEN sensor_data.type = 'humidity' THEN sensor_data.value ELSE NULL END) AS humidity\n  -- GROUP_CONCAT(CASE WHEN sensor_data.type = 'heat' THEN sensor_data.value ELSE NULL END) AS heat\nFROM devices \nJOIN sensor_data ON devices.id = sensor_data.device \nWHERE sensor_data.ts = (SELECT MAX(ts) FROM sensor_data s WHERE s.device = sensor_data.device AND s.type = sensor_data.type)\nGROUP BY devices.device;",
-              "refId": "A",
-              "timeColumns": []
-            }
-          ],
-          "type": "table"
+          "queryText": "SELECT\n  devices.id,\n  devices.description, \n  GROUP_CONCAT(CASE WHEN sensor_data.type = 'temperature' THEN sensor_data.value ELSE NULL END) AS temp,\n  GROUP_CONCAT(CASE WHEN sensor_data.type = 'pressure' THEN sensor_data.value ELSE NULL END) AS pressure,\n  -- GROUP_CONCAT(CASE WHEN sensor_data.type = 'dew' THEN sensor_data.value ELSE NULL END) AS dew,\n  -- GROUP_CONCAT(CASE WHEN sensor_data.type = 'gps' THEN sensor_data.value ELSE NULL END) AS gps,\n  -- GROUP_CONCAT(CASE WHEN sensor_data.type = 'baro' THEN sensor_data.value ELSE NULL END) AS baro,\n  GROUP_CONCAT(CASE WHEN sensor_data.type = 'humidity' THEN sensor_data.value ELSE NULL END) AS humidity\n  -- GROUP_CONCAT(CASE WHEN sensor_data.type = 'heat' THEN sensor_data.value ELSE NULL END) AS heat\nFROM devices \nJOIN sensor_data ON devices.id = sensor_data.device \nWHERE sensor_data.ts = (SELECT MAX(ts) FROM sensor_data s WHERE s.device = sensor_data.device AND s.type = sensor_data.type)\nGROUP BY devices.device;",
+          "queryType": "table",
+          "rawQueryText": "SELECT\n  devices.id,\n  devices.description, \n  GROUP_CONCAT(CASE WHEN sensor_data.type = 'temperature' THEN sensor_data.value ELSE NULL END) AS temp,\n  GROUP_CONCAT(CASE WHEN sensor_data.type = 'pressure' THEN sensor_data.value ELSE NULL END) AS pressure,\n  -- GROUP_CONCAT(CASE WHEN sensor_data.type = 'dew' THEN sensor_data.value ELSE NULL END) AS dew,\n  -- GROUP_CONCAT(CASE WHEN sensor_data.type = 'gps' THEN sensor_data.value ELSE NULL END) AS gps,\n  -- GROUP_CONCAT(CASE WHEN sensor_data.type = 'baro' THEN sensor_data.value ELSE NULL END) AS baro,\n  GROUP_CONCAT(CASE WHEN sensor_data.type = 'humidity' THEN sensor_data.value ELSE NULL END) AS humidity\n  -- GROUP_CONCAT(CASE WHEN sensor_data.type = 'heat' THEN sensor_data.value ELSE NULL END) AS heat\nFROM devices \nJOIN sensor_data ON devices.id = sensor_data.device \nWHERE sensor_data.ts = (SELECT MAX(ts) FROM sensor_data s WHERE s.device = sensor_data.device AND s.type = sensor_data.type)\nGROUP BY devices.device;",
+          "refId": "A",
+          "timeColumns": []
         }
       ],
-      "title": "Stations",
-      "type": "row"
+      "type": "table"
     },
     {
       "collapsed": false,
@@ -396,7 +397,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 3
+        "y": 6
       },
       "id": 20,
       "panels": [],
@@ -431,7 +432,7 @@
         "h": 2,
         "w": 3,
         "x": 0,
-        "y": 4
+        "y": 7
       },
       "id": 4,
       "options": {
@@ -496,7 +497,7 @@
         "h": 2,
         "w": 3,
         "x": 3,
-        "y": 4
+        "y": 7
       },
       "id": 8,
       "options": {
@@ -564,7 +565,7 @@
         "h": 2,
         "w": 3,
         "x": 0,
-        "y": 6
+        "y": 9
       },
       "id": 10,
       "options": {
@@ -630,7 +631,7 @@
         "h": 2,
         "w": 3,
         "x": 3,
-        "y": 6
+        "y": 9
       },
       "id": 38,
       "options": {
@@ -668,287 +669,294 @@
       "type": "stat"
     },
     {
-      "collapsed": true,
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 8
+        "y": 11
       },
       "id": 32,
-      "panels": [
-        {
-          "datasource": {
-            "type": "frser-sqlite-datasource",
-            "uid": "${DS_SQLITE}"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "continuous-GrYlRd"
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  }
-                ]
-              },
-              "unit": "celsius"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 2,
-            "w": 3,
-            "x": 0,
-            "y": 23
-          },
-          "id": 14,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "none",
-            "justifyMode": "center",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "text": {
-              "valueSize": 25
-            },
-            "textMode": "value"
-          },
-          "pluginVersion": "9.4.2",
-          "targets": [
-            {
-              "datasource": {
-                "type": "frser-sqlite-datasource",
-                "uid": "${DS_SQLITE}"
-              },
-              "queryText": "SELECT ABS(MAX(value) - MIN(value)) AS diff FROM sensor_data\nWHERE device = $device_id AND type = 'temperature' AND ts BETWEEN ${__from:date:seconds} AND ${__from:to:seconds}\n",
-              "queryType": "table",
-              "rawQueryText": "SELECT ABS(MAX(value) - MIN(value)) AS diff FROM sensor_data\nWHERE device = $device_id AND type = 'temperature' AND ts BETWEEN ${__from:date:seconds} AND ${__from:to:seconds}\n",
-              "refId": "A",
-              "timeColumns": [
-                "time",
-                "ts"
-              ]
-            }
-          ],
-          "title": "Amplitude °C",
-          "type": "stat"
-        },
-        {
-          "datasource": {
-            "type": "frser-sqlite-datasource",
-            "uid": "${DS_SQLITE}"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "fixed"
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "orange"
-                  }
-                ]
-              },
-              "unit": "pressurehpa"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 2,
-            "w": 3,
-            "x": 3,
-            "y": 23
-          },
-          "id": 16,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "none",
-            "justifyMode": "center",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "text": {
-              "valueSize": 25
-            },
-            "textMode": "value"
-          },
-          "pluginVersion": "9.4.2",
-          "targets": [
-            {
-              "datasource": {
-                "type": "frser-sqlite-datasource",
-                "uid": "${DS_SQLITE}"
-              },
-              "queryText": "SELECT ABS(MAX(value) - MIN(value)) AS diff FROM sensor_data\nWHERE device = $device_id AND type = 'pressure' AND ts BETWEEN ${__from:date:seconds} AND ${__from:to:seconds}\n",
-              "queryType": "table",
-              "rawQueryText": "SELECT ABS(MAX(value) - MIN(value)) AS diff FROM sensor_data\nWHERE device = $device_id AND type = 'pressure' AND ts BETWEEN ${__from:date:seconds} AND ${__from:to:seconds}\n",
-              "refId": "A",
-              "timeColumns": [
-                "time",
-                "ts"
-              ]
-            }
-          ],
-          "title": "Amplitude Pressure",
-          "type": "stat"
-        },
-        {
-          "datasource": {
-            "type": "frser-sqlite-datasource",
-            "uid": "${DS_SQLITE}"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "fixedColor": "blue",
-                "mode": "fixed"
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "blue"
-                  }
-                ]
-              },
-              "unit": "humidity"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 2,
-            "w": 3,
-            "x": 0,
-            "y": 25
-          },
-          "id": 18,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "none",
-            "justifyMode": "center",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "text": {
-              "valueSize": 25
-            },
-            "textMode": "value"
-          },
-          "pluginVersion": "9.4.2",
-          "targets": [
-            {
-              "datasource": {
-                "type": "frser-sqlite-datasource",
-                "uid": "${DS_SQLITE}"
-              },
-              "queryText": "SELECT ABS(MAX(value) - MIN(value)) AS diff FROM sensor_data\nWHERE device = $device_id AND type = 'pressure' AND ts BETWEEN ${__from:date:seconds} AND ${__from:to:seconds}\n",
-              "queryType": "table",
-              "rawQueryText": "SELECT ABS(MAX(value) - MIN(value)) AS diff FROM sensor_data\nWHERE device = $device_id AND type = 'pressure' AND ts BETWEEN ${__from:date:seconds} AND ${__from:to:seconds}\n",
-              "refId": "A",
-              "timeColumns": [
-                "time",
-                "ts"
-              ]
-            }
-          ],
-          "title": "Amplitude Humidity",
-          "type": "stat"
-        },
-        {
-          "datasource": {
-            "type": "frser-sqlite-datasource",
-            "uid": "${DS_SQLITE}"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "fixed"
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "orange"
-                  }
-                ]
-              },
-              "unit": "lengthm"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 2,
-            "w": 3,
-            "x": 3,
-            "y": 25
-          },
-          "id": 42,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "none",
-            "justifyMode": "center",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "text": {
-              "valueSize": 25
-            },
-            "textMode": "value"
-          },
-          "pluginVersion": "9.4.2",
-          "targets": [
-            {
-              "datasource": {
-                "type": "frser-sqlite-datasource",
-                "uid": "${DS_SQLITE}"
-              },
-              "queryText": "SELECT ABS(MAX(value) - MIN(value)) AS diff FROM sensor_data\nWHERE device = $device_id AND type = 'gps' AND ts BETWEEN ${__from:date:seconds} AND ${__from:to:seconds}\n",
-              "queryType": "table",
-              "rawQueryText": "SELECT ABS(MAX(value) - MIN(value)) AS diff FROM sensor_data\nWHERE device = $device_id AND type = 'gps' AND ts BETWEEN ${__from:date:seconds} AND ${__from:to:seconds}\n",
-              "refId": "A",
-              "timeColumns": [
-                "time",
-                "ts"
-              ]
-            }
-          ],
-          "title": "Amplitude Altitude",
-          "type": "stat"
-        }
-      ],
+      "panels": [],
       "title": "Amplitudes",
       "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "${DS_SQLITE}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 0,
+        "y": 12
+      },
+      "id": 14,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "valueSize": 25
+        },
+        "textMode": "value",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.2.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "${DS_SQLITE}"
+          },
+          "queryText": "SELECT ABS(MAX(value) - MIN(value)) AS diff FROM sensor_data\nWHERE device = $device_id AND type = 'temperature' AND ts BETWEEN ${__from:date:seconds} AND ${__from:to:seconds}\n",
+          "queryType": "table",
+          "rawQueryText": "SELECT ABS(MAX(value) - MIN(value)) AS diff FROM sensor_data\nWHERE device = $device_id AND type = 'temperature' AND ts BETWEEN ${__from:date:seconds} AND ${__from:to:seconds}\n",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "Amplitude °C",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "${DS_SQLITE}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "orange",
+                "value": null
+              }
+            ]
+          },
+          "unit": "pressurehpa"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 3,
+        "y": 12
+      },
+      "id": 16,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "valueSize": 25
+        },
+        "textMode": "value",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.2.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "${DS_SQLITE}"
+          },
+          "queryText": "SELECT ABS(MAX(value) - MIN(value)) AS diff FROM sensor_data\nWHERE device = $device_id AND type = 'pressure' AND ts BETWEEN ${__from:date:seconds} AND ${__from:to:seconds}\n",
+          "queryType": "table",
+          "rawQueryText": "SELECT ABS(MAX(value) - MIN(value)) AS diff FROM sensor_data\nWHERE device = $device_id AND type = 'pressure' AND ts BETWEEN ${__from:date:seconds} AND ${__from:to:seconds}\n",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "Amplitude Pressure",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "${DS_SQLITE}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "blue",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "humidity"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 0,
+        "y": 14
+      },
+      "id": 18,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "valueSize": 25
+        },
+        "textMode": "value",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.2.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "${DS_SQLITE}"
+          },
+          "queryText": "SELECT ABS(MAX(value) - MIN(value)) AS diff FROM sensor_data\nWHERE device = $device_id AND type = 'humidity' AND ts BETWEEN ${__from:date:seconds} AND ${__from:to:seconds}\n",
+          "queryType": "table",
+          "rawQueryText": "SELECT ABS(MAX(value) - MIN(value)) AS diff FROM sensor_data\nWHERE device = $device_id AND type = 'humidity' AND ts BETWEEN ${__from:date:seconds} AND ${__from:to:seconds}\n",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "Amplitude Humidity",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "${DS_SQLITE}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "orange",
+                "value": null
+              }
+            ]
+          },
+          "unit": "lengthm"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 3,
+        "y": 14
+      },
+      "id": 42,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "valueSize": 25
+        },
+        "textMode": "value",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.2.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "${DS_SQLITE}"
+          },
+          "queryText": "SELECT ABS(MAX(value) - MIN(value)) AS diff FROM sensor_data\nWHERE device = $device_id AND type = 'gps' AND ts BETWEEN ${__from:date:seconds} AND ${__from:to:seconds}\n",
+          "queryType": "table",
+          "rawQueryText": "SELECT ABS(MAX(value) - MIN(value)) AS diff FROM sensor_data\nWHERE device = $device_id AND type = 'gps' AND ts BETWEEN ${__from:date:seconds} AND ${__from:to:seconds}\n",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "Amplitude Altitude",
+      "type": "stat"
     },
     {
       "collapsed": false,
@@ -956,7 +964,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 9
+        "y": 16
       },
       "id": 22,
       "panels": [],
@@ -1029,7 +1037,7 @@
         "h": 7,
         "w": 6,
         "x": 0,
-        "y": 10
+        "y": 17
       },
       "id": 6,
       "options": {
@@ -1116,8 +1124,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "orange",
-                "value": null
+                "color": "orange"
               }
             ]
           },
@@ -1129,7 +1136,7 @@
         "h": 7,
         "w": 6,
         "x": 0,
-        "y": 17
+        "y": 24
       },
       "id": 12,
       "options": {
@@ -1216,8 +1223,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "blue",
-                "value": null
+                "color": "blue"
               },
               {
                 "color": "red",
@@ -1233,7 +1239,7 @@
         "h": 7,
         "w": 6,
         "x": 0,
-        "y": 24
+        "y": 31
       },
       "id": 24,
       "options": {
@@ -1319,8 +1325,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "orange",
-                "value": null
+                "color": "orange"
               }
             ]
           },
@@ -1332,7 +1337,7 @@
         "h": 7,
         "w": 6,
         "x": 0,
-        "y": 31
+        "y": 38
       },
       "id": 40,
       "options": {
@@ -1367,153 +1372,152 @@
       "type": "timeseries"
     },
     {
-      "collapsed": true,
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 38
+        "y": 45
       },
       "id": 34,
-      "panels": [
+      "panels": [],
+      "title": "GEO",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "${DS_SQLITE}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "red",
+            "mode": "fixed"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 0,
+        "y": 46
+      },
+      "id": 36,
+      "options": {
+        "basemap": {
+          "config": {},
+          "name": "Layer 0",
+          "opacity": 0.8,
+          "type": "osm-standard"
+        },
+        "controls": {
+          "mouseWheelZoom": true,
+          "showAttribution": true,
+          "showDebug": false,
+          "showMeasure": false,
+          "showScale": false,
+          "showZoom": true
+        },
+        "layers": [
+          {
+            "config": {
+              "showLegend": false,
+              "style": {
+                "color": {
+                  "fixed": "red"
+                },
+                "opacity": 1,
+                "rotation": {
+                  "fixed": 0,
+                  "max": 360,
+                  "min": -360,
+                  "mode": "mod"
+                },
+                "size": {
+                  "fixed": 5,
+                  "max": 15,
+                  "min": 2
+                },
+                "symbol": {
+                  "fixed": "img/icons/marker/circle.svg",
+                  "mode": "fixed"
+                },
+                "textConfig": {
+                  "fontSize": 12,
+                  "offsetX": 0,
+                  "offsetY": 0,
+                  "textAlign": "center",
+                  "textBaseline": "middle"
+                }
+              }
+            },
+            "filterData": {
+              "id": "byRefId",
+              "options": "A"
+            },
+            "location": {
+              "latitude": "lat",
+              "longitude": "lot",
+              "mode": "coords"
+            },
+            "name": "-",
+            "tooltip": false,
+            "type": "markers"
+          }
+        ],
+        "tooltip": {
+          "mode": "details"
+        },
+        "view": {
+          "allLayers": true,
+          "id": "fit",
+          "lastOnly": false,
+          "lat": 0,
+          "layer": "Layer 1",
+          "lon": 0,
+          "shared": false,
+          "zoom": 15
+        }
+      },
+      "pluginVersion": "10.2.3",
+      "targets": [
         {
           "datasource": {
             "type": "frser-sqlite-datasource",
             "uid": "${DS_SQLITE}"
           },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "fixedColor": "red",
-                "mode": "fixed"
-              },
-              "custom": {
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 6,
-            "x": 0,
-            "y": 55
-          },
-          "id": 36,
-          "options": {
-            "basemap": {
-              "config": {},
-              "name": "Layer 0",
-              "opacity": 0.8,
-              "type": "osm-standard"
-            },
-            "controls": {
-              "mouseWheelZoom": true,
-              "showAttribution": true,
-              "showDebug": false,
-              "showMeasure": false,
-              "showScale": false,
-              "showZoom": true
-            },
-            "layers": [
-              {
-                "config": {
-                  "showLegend": false,
-                  "style": {
-                    "color": {
-                      "fixed": "red"
-                    },
-                    "opacity": 1,
-                    "rotation": {
-                      "fixed": 0,
-                      "max": 360,
-                      "min": -360,
-                      "mode": "mod"
-                    },
-                    "size": {
-                      "fixed": 5,
-                      "max": 15,
-                      "min": 2
-                    },
-                    "symbol": {
-                      "fixed": "img/icons/marker/circle.svg",
-                      "mode": "fixed"
-                    },
-                    "textConfig": {
-                      "fontSize": 12,
-                      "offsetX": 0,
-                      "offsetY": 0,
-                      "textAlign": "center",
-                      "textBaseline": "middle"
-                    }
-                  }
-                },
-                "filterData": {
-                  "id": "byRefId",
-                  "options": "A"
-                },
-                "location": {
-                  "latitude": "lat",
-                  "longitude": "lot",
-                  "mode": "coords"
-                },
-                "name": "-",
-                "tooltip": false,
-                "type": "markers"
-              }
-            ],
-            "tooltip": {
-              "mode": "details"
-            },
-            "view": {
-              "allLayers": true,
-              "id": "fit",
-              "lastOnly": false,
-              "lat": 0,
-              "layer": "Layer 1",
-              "lon": 0,
-              "shared": false,
-              "zoom": 15
-            }
-          },
-          "pluginVersion": "9.4.2",
-          "targets": [
-            {
-              "datasource": {
-                "type": "frser-sqlite-datasource",
-                "uid": "${DS_SQLITE}"
-              },
-              "queryText": "SELECT lat, lot\nFROM sensor_data WHERE device = $device_id\nORDER BY ts DESC LIMIT 1",
-              "queryType": "table",
-              "rawQueryText": "SELECT lat, lot\nFROM sensor_data WHERE device = $device_id\nORDER BY ts DESC LIMIT 1",
-              "refId": "A",
-              "timeColumns": [
-                "time",
-                "ts"
-              ]
-            }
-          ],
-          "type": "geomap"
+          "queryText": "SELECT lat, lot\nFROM sensor_data WHERE device = $device_id\nORDER BY ts DESC LIMIT 1",
+          "queryType": "table",
+          "rawQueryText": "SELECT lat, lot\nFROM sensor_data WHERE device = $device_id\nORDER BY ts DESC LIMIT 1",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
         }
       ],
-      "title": "GEO",
-      "type": "row"
+      "type": "geomap"
     }
   ],
-  "refresh": false,
+  "refresh": "",
   "revision": 1,
   "schemaVersion": 39,
   "tags": [],
@@ -1559,8 +1563,8 @@
     ]
   },
   "time": {
-    "from": "2023-07-12T12:48:17.000Z",
-    "to": "2023-07-15T21:00:00.000Z"
+    "from": "now-6h",
+    "to": "now"
   },
   "timepicker": {
     "hidden": false,
@@ -1574,6 +1578,6 @@
   "timezone": "Europe/Sofia",
   "title": "Data for device",
   "uid": "TUyySQmRz",
-  "version": 69,
+  "version": 70,
   "weekStart": "monday"
 }
