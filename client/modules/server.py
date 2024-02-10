@@ -37,6 +37,7 @@ class ServerConnect:
         if self.certificate:
             wrapped_socket = ssl.wrap_socket(sock, cert_reqs=ssl.CERT_REQUIRED, ca_certs=self.certificate)
         else:
+            # TODO: Can we go without certificate?
             wrapped_socket = ssl.wrap_socket(sock, cert_reqs=ssl.CERT_NONE, ca_certs=None)
 
         wrapped_socket.connect((self.host, self.port))

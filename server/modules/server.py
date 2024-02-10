@@ -85,14 +85,15 @@ class WeatherServer:
                         device = payload['device']
                         print(f"{log_time_zone()}: {device} is connected")
                         clients = self.config.get_clients()
-                        if not clients[device]:
+                        if not clients.get(device):
                             conn.sendall(b'Invalid device')
                         else:
                             # print(payload['data'])
-                            json_str_pretty = json.dumps(payload['data'], indent=4)
+                            # json_str_pretty = json.dumps(payload['data'], indent=4)
                             # print(json_str_pretty)
+                            # sys.exit()
                             status = weather_db.add_data(device, payload['data'])
-                            if status['status']:
+                            if status.get('status'):
                                 conn.sendall(b'OK')
                             else:
                                 conn.sendall(bytes(status['message'], 'utf-8'))

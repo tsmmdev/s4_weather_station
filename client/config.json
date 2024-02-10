@@ -9,8 +9,8 @@
         "certificate": "server_certificate.pem"
     },
     "read_lines": 200,
-    "buffer_store_max_lines": 100,
-    "store_max_lines": 800,
+    "buffer_store_max_lines": 200,
+    "store_max_lines": 1000,
     "ignore_logs": [
         "abs",
         "mixing",

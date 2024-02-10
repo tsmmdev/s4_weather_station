@@ -1,3 +1,7 @@
+# TODO #
+### - Readme ###
+### - deploy.sh for client and server ###
+
 # README #
 
 This README would normally document whatever steps are necessary to get your application up and running.

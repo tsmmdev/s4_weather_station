@@ -58,7 +58,7 @@ class Files:
         if not os.path.isdir(logs_dir):
             print(f"Error: {logs_dir} does not exist.")
             exit(1)
-
+        # SEE client/modules/config.py foe config explanation
         read_lines = self.config.get_read_lines()
         store_max_lines = self.config.get_store_max_lines()
         buffer_store_max_lines = self.config.get_buffer_store_max_lines()
@@ -67,7 +67,7 @@ class Files:
         ignore_logs = self.config.get_ignore_logs()
         for filename in os.listdir(logs_dir):
             filepath = os.path.join(logs_dir, filename)
-            if os.path.isfile(filepath) and filename.endswith(".txt"):
+            if os.path.isfile(filepath) and filename.endswith("_log.txt"):
                 temp_filename = filename
                 temp_filename = temp_filename.split('_')[0]
                 if temp_filename not in ignore_logs:
@@ -84,6 +84,7 @@ class Files:
                         data[f"{filename}"]["header"].append("junk")
                         lines = all_lines[-read_lines:]
                         for i, line in enumerate(lines[1:]):
+                            # TODO why junk?
                             # throw some random value that we are going to ignore in server
                             junk = random.randint(99999, 99999999999)
                             values = line.strip().split("\t")
