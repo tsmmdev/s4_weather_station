@@ -9,7 +9,7 @@ class Config:
             root_folder
     ):
         self.root_folder = root_folder
-        self.config_path = os.path.join(root_folder, "config.json")
+        self.config_path = os.path.join(root_folder, "server_config.json")
         # with open(self.config_path, "r") as f:
         #     self.config = json.load(f)
         self.load_config()
@@ -37,7 +37,7 @@ class Config:
 
     def _get_certificates_files(self) -> {}:
         certificate_config = self.config.get("certificates", {})
-        certificate_folder = os.path.join(self.root_folder, certificate_config["folder"])
+        certificate_folder = os.path.join(self.root_folder, 'certs')
         certificate = os.path.join(certificate_folder, certificate_config["certificate"])
         certificate_key = os.path.join(certificate_folder, certificate_config["key"])
         result = {

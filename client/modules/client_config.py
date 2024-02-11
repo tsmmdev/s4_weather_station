@@ -9,7 +9,7 @@ class Config:
             root_folder: str
     ):
         self.root_folder = root_folder
-        config_path = os.path.join(root_folder, "config.json")
+        config_path = os.path.join(root_folder, "client_config.json")
         with open(config_path, "r") as f:
             self.config = json.load(f)
 
@@ -56,11 +56,3 @@ class Config:
     # TODO: good idea to trim this files also
     def get_ignore_logs(self) -> str:
         return self.config.get("ignore_logs", [])
-
-    # TODO: add description here and in json
-    # TODO: how to generate certificates
-    def get_certificate(self) -> {}:
-        certificate_config = self.config.get("certificates", {})
-        certificate_folder = os.path.join(self.root_folder, certificate_config["folder"])
-        certificate = os.path.join(certificate_folder, certificate_config["certificate"])
-        return certificate

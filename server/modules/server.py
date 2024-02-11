@@ -1,5 +1,5 @@
 # import os
-from .config import Config
+from .server_config import Config
 # import json
 import signal
 import socket
@@ -71,6 +71,8 @@ class WeatherServer:
         while True:
             conn, addr = wrapped_socket.accept()
             with conn:
+                # Obtain information about the client
+                client_ip, client_port = addr
                 # Receive the data from the device
                 data = b""
                 length = 1024
@@ -80,7 +82,7 @@ class WeatherServer:
                     self.config.load_config()
                     weather_db.init_db()
                     weather_db.update_devices(self.config.get_clients())
-                    print(f"{log_time_zone()}: someone is knocking")
+                    print(f"{log_time_zone()}: Someone is knocking: {client_ip}")
                     while True:
                         chunk = conn.recv(1024)
                         if chunk.startswith(b'[') and b']' in chunk[:-1]:
@@ -104,7 +106,7 @@ class WeatherServer:
                             algorithms=['HS256']
                         )
                         device = payload['device']
-                        print(f"{log_time_zone()}: {device} is connected")
+                        print(f"{log_time_zone()}: {device} ({client_ip}) is connected")
                         clients = self.config.get_clients()
                         if not clients.get(device):
                             conn.sendall(b'Invalid device')
@@ -117,7 +119,7 @@ class WeatherServer:
                             else:
                                 conn.sendall(bytes(status['message'], 'utf-8'))
 
-                            print(f"{log_time_zone()}: {device} is disconnected")
+                            print(f"{log_time_zone()}: {device} ({client_ip}) is disconnected")
                             print()
                     except jwt.exceptions.InvalidTokenError:
                         # The token is invalid, send an error response to the device

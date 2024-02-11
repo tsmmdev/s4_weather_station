@@ -1,6 +1,7 @@
 # import sys
 import os
 import random
+from .client_config import Config
 from .server import ServerConnect
 from .helpers import log_time_zone
 
@@ -47,18 +48,15 @@ def _rewrite_file(filepath, max_lines, buffer, just_return=False):
 
 
 class Files:
-    def __init__(
-            self,
-            config
-    ):
-        self.config = config
+    def __init__(self, root_folder):
+        self.config = Config(root_folder)
 
     def parse_logs(self):
         logs_dir = self.config.get_log_directory()
         if not os.path.isdir(logs_dir):
             print(f"Error: {logs_dir} does not exist.")
             exit(1)
-        # SEE client/modules/config.py foe config explanation
+        # SEE client/modules/client_config.py foe config explanation
         read_lines = self.config.get_read_lines()
         store_max_lines = self.config.get_store_max_lines()
         buffer_store_max_lines = self.config.get_buffer_store_max_lines()
@@ -81,14 +79,9 @@ class Files:
                         header = all_lines[:1]
                         data[f"{filename}"]["header"] = header[0].strip().split("\t")
                         # throw some random value that we are going to ignore in server for security reasons
-                        data[f"{filename}"]["header"].append("junk")
                         lines = all_lines[-read_lines:]
                         for i, line in enumerate(lines[1:]):
-                            # TODO why junk?
-                            # throw some random value that we are going to ignore in server
-                            junk = random.randint(99999, 99999999999)
                             values = line.strip().split("\t")
-                            values.append(str(junk))
                             data[f"{filename}"]["data"].append(values)
 
                     # trim file

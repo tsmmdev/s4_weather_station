@@ -14,7 +14,6 @@ class ServerConnect:
         self.host = config.get_host()
         self.port = config.get_port()
         self.device = config.get_device()
-        self.certificate = config.get_certificate()
         self.jwt_secret = config.get_jwt_secret()
 
     def send_data_to_server(self, data: dict) -> str:
@@ -34,11 +33,7 @@ class ServerConnect:
         # Create a socket and connect to the server
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-        if self.certificate:
-            wrapped_socket = ssl.wrap_socket(sock, cert_reqs=ssl.CERT_REQUIRED, ca_certs=self.certificate)
-        else:
-            # TODO: Can we go without certificate?
-            wrapped_socket = ssl.wrap_socket(sock, cert_reqs=ssl.CERT_NONE, ca_certs=None)
+        wrapped_socket = ssl.wrap_socket(sock, cert_reqs=ssl.CERT_NONE, ca_certs=None)
 
         wrapped_socket.connect((self.host, self.port))
 

@@ -4,14 +4,11 @@
     "device_id": "home",
     "host": "10.8.0.1",
     "port": 12345,
-    "certificates": {
-        "folder": "certs",
-        "certificate": "server_certificate.pem"
-    },
     "read_lines": 200,
     "buffer_store_max_lines": 200,
     "store_max_lines": 1000,
     "ignore_logs": [
+        "heat",
         "abs",
         "dew",
         "mixing",

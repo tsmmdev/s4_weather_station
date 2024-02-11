@@ -93,7 +93,7 @@ class WeatherDatabase:
                             header_index = -1
                             for header_name in header:
                                 header_index += 1
-                                if header_name != 'unit' and header_name != 'junk':
+                                if header_name != 'unit':
                                     if header_name == 'ts':
                                         temp_data.append(int(data_row[header_index]))
                                     elif header_name != 'value':
