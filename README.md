@@ -1,6 +1,6 @@
 ### This is sketch notes not final README
 
-# The Galaxy S4 Weather Station Project
+# Galaxy S4 Weather Station
 
 I'm working on a project that's not exactly straightforward but has its own charm. It's about repurposing the Samsung Galaxy S4 into a local weather station. Remember the S4? Turns out, it's equipped with a set of sensors that are actually perfect for monitoring the weather—barometer, temperature, humidity sensors, you name it. It's an old phone, but here's where it gets interesting.
 
