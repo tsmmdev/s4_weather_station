@@ -165,12 +165,12 @@
               }
             ]
           },
-          "unit": "UTC"
+          "unit": "dateTimeAsSystem"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 1,
+        "h": 2,
         "w": 6,
         "x": 0,
         "y": 1
@@ -180,7 +180,7 @@
         "colorMode": "value",
         "graphMode": "none",
         "justifyMode": "center",
-        "orientation": "auto",
+        "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -201,9 +201,9 @@
             "type": "frser-sqlite-datasource",
             "uid": "${DS_SQLITE}"
           },
-          "queryText": "SELECT strftime('%d/%m/%Y %H:%M', MAX(sensor_data.ts), 'unixepoch') AS updated_at\nFROM sensor_data WHERE device = $device_id",
+          "queryText": "SELECT MAX(sensor_data.ts)*1000 AS updated_at\nFROM sensor_data WHERE device = $device_id",
           "queryType": "table",
-          "rawQueryText": "SELECT strftime('%d/%m/%Y %H:%M', MAX(sensor_data.ts), 'unixepoch') AS updated_at\nFROM sensor_data WHERE device = $device_id",
+          "rawQueryText": "SELECT MAX(sensor_data.ts)*1000 AS updated_at\nFROM sensor_data WHERE device = $device_id",
           "refId": "A",
           "timeColumns": [
             "time",
@@ -211,6 +211,7 @@
           ]
         }
       ],
+      "title": "Last Datetime",
       "type": "stat"
     },
     {
@@ -219,7 +220,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 2
+        "y": 3
       },
       "id": 28,
       "panels": [],
@@ -358,7 +359,7 @@
         "h": 3,
         "w": 6,
         "x": 0,
-        "y": 3
+        "y": 4
       },
       "id": 30,
       "options": {
@@ -397,7 +398,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 6
+        "y": 7
       },
       "id": 20,
       "panels": [],
@@ -432,7 +433,7 @@
         "h": 2,
         "w": 3,
         "x": 0,
-        "y": 7
+        "y": 8
       },
       "id": 4,
       "options": {
@@ -497,7 +498,7 @@
         "h": 2,
         "w": 3,
         "x": 3,
-        "y": 7
+        "y": 8
       },
       "id": 8,
       "options": {
@@ -565,7 +566,7 @@
         "h": 2,
         "w": 3,
         "x": 0,
-        "y": 9
+        "y": 10
       },
       "id": 10,
       "options": {
@@ -631,7 +632,7 @@
         "h": 2,
         "w": 3,
         "x": 3,
-        "y": 9
+        "y": 10
       },
       "id": 38,
       "options": {
@@ -674,7 +675,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 11
+        "y": 12
       },
       "id": 32,
       "panels": [],
@@ -709,7 +710,7 @@
         "h": 2,
         "w": 3,
         "x": 0,
-        "y": 12
+        "y": 13
       },
       "id": 14,
       "options": {
@@ -778,7 +779,7 @@
         "h": 2,
         "w": 3,
         "x": 3,
-        "y": 12
+        "y": 13
       },
       "id": 16,
       "options": {
@@ -849,7 +850,7 @@
         "h": 2,
         "w": 3,
         "x": 0,
-        "y": 14
+        "y": 15
       },
       "id": 18,
       "options": {
@@ -919,7 +920,7 @@
         "h": 2,
         "w": 3,
         "x": 3,
-        "y": 14
+        "y": 15
       },
       "id": 42,
       "options": {
@@ -966,7 +967,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 16
+        "y": 17
       },
       "id": 22,
       "panels": [],
@@ -1026,8 +1027,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -1039,7 +1039,7 @@
         "h": 7,
         "w": 6,
         "x": 0,
-        "y": 17
+        "y": 18
       },
       "id": 6,
       "options": {
@@ -1126,8 +1126,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "orange",
-                "value": null
+                "color": "orange"
               }
             ]
           },
@@ -1139,7 +1138,7 @@
         "h": 7,
         "w": 6,
         "x": 0,
-        "y": 24
+        "y": 25
       },
       "id": 12,
       "options": {
@@ -1226,8 +1225,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "blue",
-                "value": null
+                "color": "blue"
               },
               {
                 "color": "red",
@@ -1243,7 +1241,7 @@
         "h": 7,
         "w": 6,
         "x": 0,
-        "y": 31
+        "y": 32
       },
       "id": 24,
       "options": {
@@ -1329,8 +1327,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "orange",
-                "value": null
+                "color": "orange"
               }
             ]
           },
@@ -1342,7 +1339,7 @@
         "h": 7,
         "w": 6,
         "x": 0,
-        "y": 38
+        "y": 39
       },
       "id": 40,
       "options": {
@@ -1382,7 +1379,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 45
+        "y": 46
       },
       "id": 34,
       "panels": [],
@@ -1412,8 +1409,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -1424,7 +1420,7 @@
         "h": 8,
         "w": 6,
         "x": 0,
-        "y": 46
+        "y": 47
       },
       "id": 36,
       "options": {
@@ -1523,7 +1519,7 @@
       "type": "geomap"
     }
   ],
-  "refresh": false,
+  "refresh": "",
   "revision": 1,
   "schemaVersion": 39,
   "tags": [],
@@ -1532,8 +1528,8 @@
       {
         "current": {
           "selected": false,
-          "text": "3",
-          "value": "3"
+          "text": "1",
+          "value": "1"
         },
         "hide": 2,
         "includeAll": false,
@@ -1569,7 +1565,7 @@
     ]
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-6h",
     "to": "now"
   },
   "timepicker": {
@@ -1584,6 +1580,6 @@
   "timezone": "Europe/Sofia",
   "title": "Data for device",
   "uid": "TUyySQmRz",
-  "version": 76,
+  "version": 82,
   "weekStart": "monday"
 }
