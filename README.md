@@ -26,15 +26,15 @@ As a side note, there's also the possibility of adding the AlfredCamera app to t
 
 So, that's the gist of it. The project is about giving a second life to an old piece of technology, making it useful in a new way. It's not just about nostalgia; it's about practicality and making the most of what we already have. There's a bit more to iron out, but it's shaping up nicely.
 <br>
-<img src="/var/www/weatherstation/res/termux.png" width="200"/>
-<img src="/var/www/weatherstation/res/ws1.jpg" width="200"/>
-<img src="/var/www/weatherstation/res/ws2.png" width="200"/>
-<img src="/var/www/weatherstation/res/ws3.png" width="200"/>
+<img src="/res/termux.png" width="200"/>
+<img src="/res/ws1.jpg" width="200"/>
+<img src="/res/ws2.png" width="200"/>
+<img src="/res/ws3.png" width="200"/>
 <br>
-<img src="/var/www/weatherstation/res/gr1.jpg" width="200"/>
-<img src="/var/www/weatherstation/res/gr2.jpg" width="200"/>
-<img src="/var/www/weatherstation/res/gr3.jpg" width="200"/>
-<img src="/var/www/weatherstation/res/gr4.jpg" width="200"/>
+<img src="/res/gr1.jpg" width="200"/>
+<img src="/res/gr2.jpg" width="200"/>
+<img src="/res/gr3.jpg" width="200"/>
+<img src="/res/gr4.jpg" width="200"/>
 <br>
 
 # TODO #
